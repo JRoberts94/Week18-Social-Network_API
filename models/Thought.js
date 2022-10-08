@@ -13,10 +13,10 @@ const reactionSchema = new Schema({
     type: String,
     unique: true,
   },
-  DNT: {
-    type: Date,
-    default: Date.now()
-  }
+  // DNT: {
+  //   type: Date,
+  //   default: Date.now()
+  // }
 },{
   timestamps: true,
 })
@@ -35,10 +35,10 @@ const thoughtSchema = new Schema(
       type: String,
       unique: true,
     },
-    DNT: {
-      type: Date,
-      default: Date.now()
-    },
+    // DNT: {
+    //   type: Date,
+    //   default: Date.now()
+    // },
     reactions: [reactionSchema],
   },
   {

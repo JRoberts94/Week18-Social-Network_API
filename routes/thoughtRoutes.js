@@ -32,6 +32,7 @@ router.get("/thoughts/:id", (req, res) => {
       }
 });
 
+//post route to create new thought
 router.post("/thoughts", (req, res) => {
     try{
         const thought = new Thought({
@@ -40,13 +41,13 @@ router.post("/thoughts", (req, res) => {
         });
         thought.save().then(res.json("new thought created :)"));
         User.findOne({username: req.body.username}).then(function(user){
-            user.thought.push(thought._id);
+            user.thoughts.push(thought._id);
             user.save();
         })
     }catch (err) {
         res.json("you have encountered an error, please check your request and try again.");
       }
-})
+});
 
 
 

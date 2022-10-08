@@ -64,6 +64,18 @@ router.post("/users", (req, res) => {
     }
   });
 
+  // Delete route for removing user
+router.delete("/users/delete/:id", async (req, res) => {
+    try {
+      const userEnt = await User.findOne({ _id: req.params.id });
+      const userName = userEnt.username;
+      const thoughts = await Thought.find({ username: userName }).remove();
+      const delUser = await User.findOneAndDelete({ _id: req.params.id }).then(
+        res.json("User and associated thoughts removed!"));
+    } catch (err) {
+      res.json("There's been an error please check params and try again.");
+    }
+  });
 
 
 module.exports = router;
