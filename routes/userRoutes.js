@@ -51,6 +51,19 @@ router.put("/users/update/:id", async (req, res) => {
         }
 });
 
+// Post route to create a new user
+router.post("/users", (req, res) => {
+    try {
+      const user = new User({
+        username: req.body.username,
+        email: req.body.email,
+      });
+      user.save().then(res.json("User created!"));
+    } catch (err) {
+      res.json("There's been an error please check params and try again.");
+    }
+  });
+
 
 
 module.exports = router;
