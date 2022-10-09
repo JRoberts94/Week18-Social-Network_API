@@ -33,14 +33,14 @@ router.get("/thoughts/:id", (req, res) => {
 });
 
 //post route to create new thought
-router.post("/thoughts", (req, res) => {
+router.post("/thoughts/:id", (req, res) => {
     try{
         const thought = new Thought({
             text: req.body.text,
             username: req.body.username,
         });
-        thought.save().then(res.json("new thought created :)"));
-        User.findOne({username: req.body.username}).then(function(user){
+        thought.save().then(res.json(thought));
+        User.findById(req.params.id).then(function(user){
             user.thoughts.push(thought._id);
             user.save();
         })
@@ -48,29 +48,6 @@ router.post("/thoughts", (req, res) => {
         res.json("you have encountered an error, please check your request and try again.");
       }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 module.exports = router;

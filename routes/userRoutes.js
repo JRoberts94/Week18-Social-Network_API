@@ -44,7 +44,7 @@ router.put("/users/update/:id", async (req, res) => {
         if(!user){
             res.json("unable to find user")
         }else{
-            user.save().then(res.json("User Updated"));
+            user.save().then(res.json(user));
         }
         }catch(error){
             res.json("you have encountered an error, please check your request and try again.");
@@ -58,9 +58,9 @@ router.post("/users", (req, res) => {
         username: req.body.username,
         email: req.body.email,
       });
-      user.save().then(res.json("User created!"));
+      user.save().then(res.json(user));
     } catch (err) {
-      res.json("There's been an error please check params and try again.");
+      res.json("you have encountered an error, please check your request and try again.");
     }
   });
 
@@ -73,9 +73,43 @@ router.delete("/users/delete/:id", async (req, res) => {
       const delUser = await User.findOneAndDelete({ _id: req.params.id }).then(
         res.json("User and associated thoughts removed!"));
     } catch (err) {
-      res.json("There's been an error please check params and try again.");
+      res.json("you have encountered an error, please check your request and try again.");
     }
   });
 
+//Post route to add friend for the user
+router.post("/users/:userId/friends/:friendId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const friend = req.params.friendId;
+    await User.findById(userId).then(function (user) {
+      user.friends.push(friend);
+      user.save();
+      res.json("Friend Added!");
+    });
+  } catch (err) {
+    res.json("you have encountered an error, please check your request and try again.");
+  }
+});
+
+// Delete route to remove friend from user array
+router.delete("/users/:userId/friends/:friendId", (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const friend = req.params.friendId;
+    User.findById(userId).then(function (user) {
+      if (!user) {
+        return res.json("User Not Found");
+      } else {
+        let arr = user.friends;
+        let friendPos = arr.indexOf(friend);
+        arr.splice(friendPos, 1);
+        user.save().then(res.json("Friend Deleted :("));
+      }
+    });
+  } catch (err) {
+    res.json("you have encountered an error, please check your request and try again.");
+  }
+});
 
 module.exports = router;
