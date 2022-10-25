@@ -5,13 +5,12 @@ const moment = require('moment')
 const reactionSchema = new Schema({
   body: {
     type: String,
-      unique: true,
       minLength: 1,
       maxLength: 280,
   },
   username: {
     type: String,
-    unique: true,
+   
   },
   ISO: {
     type: Date,
@@ -26,14 +25,14 @@ const thoughtSchema = new Schema(
   {
     text: {
       type: String,
-      unique: true,
+     
       minLength: 1,
       maxLength: 280,
 
     },
     username: {
       type: String,
-      unique: true,
+     
     },
     ISO: {
       type: Date,
